@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+
+    <style>
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+            }
+
+            .about-container {
+                flex-direction: column;
+            }
+        }
+
+        :root {
+            --primary: #334155;
+            --dark: #020617;
+            --light: #f1f5f9;
+            --accent: #38bdf8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+            background: white;
+            line-height: 1.6;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 600;
+            color: white;
+        }
+
+        header {
+            background-color: #f1c40f;
+            justify-content: space-between;
+            text-align: center;
+            align-items: center;
+            display: flex;
+            padding: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #111111;
+            padding: 20px
+        }
+
+        .nav-right a {
+            text-decoration: none;
+            color: #020617;
+            background-color: var(--accent);
+            padding: 14px 20px;
+            border-radius: 999px;
+            font-weight: 700;
+        }
+
+        .hero {
+            text-align: center;
+            background-color: var(--dark);
+            padding: 120px 80px;
+        }
+
+        .hero h1 {
+            color: white;
+            font-size: 36px;
+        }
+
+        .hero p {
+            color: #334155;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .hero-btn {
+            color: white;
+            text-decoration: none;
+            background: var(--accent);
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 40px;
+            padding: 14px 20px;
+            border-radius: 40px;
+            font-size: 18px;
+        }
+
+        .work-btn {
+            display: inline-block;
+            padding: 14px 20px;
+            background-color: white;
+            border-radius: 20px;
+            text-decoration: none;
+            color: black;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .about {
+            margin-top: 20px;
+            padding: 80px 10%;
+            background: var(--light);
+        }
+        
+        
+        .about-container {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+    
+        .about-text {
+            border: 8px solid #ffffff;
+            border-radius: 20px;
+            padding: 20px;
+            flex: 1;
+        }
+    
+    
+        .about-text p {
+            
+            line-height: 1.7;
+            margin-bottom: 15px;
+            max-width: 500px;
+        }
+    
+        .about-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+    }
+
+        .about-image img {
+            width: 260px;
+            height: auto;
+            border-radius: 50px;
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+
+    .service {
+        text-align: center;
+        background: var(--light);
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 20px;
+        margin-top: 20px;
+        gap: 20px;
+    }
+
+    .service-box {
+        max-width: 300px;
+        border-radius: 40px;
+        background: var(--dark);
+        padding: 20px;
+        color: #ffffff;
+    }
+    .service-box h3 {
+        margin-bottom: 20px;
+    }
+    .service-box p {
+        color: #444;
+    }
+
+    .why-us {
+        padding: 80px 40px;
+        background: var(--light);
+        margin-top: 20px;
+    }
+
+    .why-us h3 {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .why-list {
+      max-width: 600px;
+      margin: auto;
+      list-style: none;
+      font-size: 20px;
+    }
+
+    .why-list li {
+      margin-bottom: 15px;
+      padding-left: 25px;
+      position: relative;
+    }
+
+    .why-list li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      color: green;
+    }
+
+    .approach {
+        padding: 80px 20px;
+        text-align: center;
+        background: var(--light);
+        margin-top: 20px;
+    }
+
+    .approach h3 {
+        margin-bottom: 20px;
+    }
+    .approach p {
+        color: #444;
+    }
+
+    .projects {
+  padding: 80px 10%;
+  background: var(--light);
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.project-card {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: left;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.project-card img {
+  width: 100%;
+  border-radius: 14px;
+  margin-bottom: 15px;
+}
+
+.project-card h4 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.project-card p {
+  font-size: 16px;
+  color: #475569;
+  margin-bottom: 15px;
+}
+
+.project-card a {
+  text-decoration: none;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+
+    .cta {
+        background: var(--dark);
+        padding: 60px 20px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .cta h3 {
+        color: #ffffff;
+        font-size: 32px;
+    }
+
+    .cta p {
+        color: #444;
+        font-size: 18px;
+        margin-top: 15px;
+    }
+
+    .contact-btn {
+        margin-top: 20px;
+        padding: 14px 30px;
+        text-decoration: none;
+        color: #ffffff;
+        font-weight: 600;
+        background: var(--accent);
+        border-radius: 40px;
+        display: inline-block;
+    }
+
+    .contact-btn:hover {
+        background: black;
+        color: #ffffff;
+    }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <div class="brand">Sohail Khan</div>
+        <nav>
+            <a href="/">Home</a>
+            <a href="#about">About</a>
+            <a href="#service">Service</a>
+            <a href="#projects">Projects</a>
+        </nav>
+        <div class="nav-right">
+            <a href="#cta" class="contact-btn">Contact</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>I Build Clean, Responsive, and User-Friendly websites</h1>
+        <p>Helping businesses and individuals create a strong online presence with modern, fast, and reliable websites.</p>
+            <a href="contact" class="hero-btn">Contact Me</a>
+            <a href="projects" class="work-btn">View Work</a>
+    </section>
+
+    <section class="about" id="about">
+        <div class="about-container">
+        <h3 class="section-title">ABOUT ME</h3>
+        <div class="about-text">
+        <p><span>Hi, I'm Sohail.</span> I am a web developer focused on building simple, effective, and responsive websites.</p>
+        <p>My goal is to create websites that look professional, load fast, and deliver clear information to users.</p>
+        <p>I believe good websites are not about flashy design they are about clarity and usability.</p>
+        </div>
+        <div class="about-image">
+            <img src="sohail.jpeg" alt="Sohail">
+        </div>
+        </div>
+    </section>
+
+    <section class="service" id="service">
+        <h3 class="section-title">SERVICES I OFFER</h3>
+        <div class="service-box">
+            <h3>Website Development</h3>
+            <p>Clean, responsive websites using modern HTML, CSS, and JavaScipt.</p>
+        </div>
+        <div class="service-box">
+            <h3>Business Websites</h3>
+            <p>Professional websites for shops, clinics, gyms, and service providers.</p>
+        </div>
+        <div class="service-box">
+            <h3>Landing Pages</h3>
+            <p>Focused pages designed to convert visitors into leads.</p>
+        </div>
+    </section>
+
+    <section class="why-us">
+        <h3 class="section-title">WHY WORK WITH ME</h3>
+        <ul class="why-list">
+            <li>Clean and structured code</li>
+            <li>Mobile-friendly design</li>
+            <li>Clear communication</li>
+            <li>On-time delivery</li>
+            <li>Practical solutions</li>
+        </ul>
+    </section>
+
+    <section class="approach">
+        <h3 class="section-title">MY APPROACH</h3>
+        <p>I first understand the client's requirement, target audience, and goal.</p>
+        <p>Then I design and develop a solution that fits their business needs.</p>
+    </section>
+
+    <section class="projects" id="projects">
+        <h3 class="section-title">PROJECTS</h3>
+
+        <div class="project-grid">
+
+          <div class="project-card">
+            <img src="Project1.png" alt="Clinic Website">
+            <h4>Clinic Website</h4>
+            <p>Responsive website designed for a local medical clinic with appointment-focused layout.</p>
+          <a href="https://blueshote02-arch.github.io/Clinic-Web/">View Project</a>
+          </div>
+
+          <div class="project-card">
+            <img src="Project2.png" alt="Business Landing Page">
+            <h4>Business Landing Page</h4>
+            <p>High-conversion landing page built for a service-based business.</p>
+            <a href="https://blueshote02-arch.github.io/Business/">View Project</a>
+          </div>
+
+          <div class="project-card">
+             <img src="Project3.png" alt="Portfolio Website">
+             <h4>Gym Website</h4>
+             <p>Clean and modern portfolio website showcasing skills and services.</p>
+             <a href="https://blueshote02-arch.github.io/IronPulse-gym/">View Project</a>
+         </div>
+
+       </div>
+    </section>
+
+    <section class="cta" id="cta">
+        <h3>Looking to build a professional website?</h3>
+        <p>Let's discuss your project today.</p>
+        <a href="/" class="contact-btn">Call Me</a>
+    </section>
+</body>
+</html>
