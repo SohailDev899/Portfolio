@@ -1,406 +1,725 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sohail Khan · clean web portfolio</title>
 
-    <style>
-        @media (max-width: 768px) {
-            nav {
-                display: none;
-            }
+  <!-- Google Fonts for premium typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
 
-            .about-container {
-                flex-direction: column;
-            }
-        }
+  <!-- Font awesome 6 (free CDN) – subtle icons for clean look -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-        :root {
-            --primary: #334155;
-            --dark: #020617;
-            --light: #f1f5f9;
-            --accent: #38bdf8;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-            background: white;
-            line-height: 1.6;
-        }
-
-        .brand {
-            font-size: 24px;
-            font-weight: 600;
-            color: white;
-        }
-
-        header {
-            background-color: #f1c40f;
-            justify-content: space-between;
-            text-align: center;
-            align-items: center;
-            display: flex;
-            padding: 20px;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #111111;
-            padding: 20px
-        }
-
-        .nav-right a {
-            text-decoration: none;
-            color: #020617;
-            background-color: var(--accent);
-            padding: 14px 20px;
-            border-radius: 999px;
-            font-weight: 700;
-        }
-
-        .hero {
-            text-align: center;
-            background-color: var(--dark);
-            padding: 120px 80px;
-        }
-
-        .hero h1 {
-            color: white;
-            font-size: 36px;
-        }
-
-        .hero p {
-            color: #334155;
-            margin-top: 20px;
-            font-size: 18px;
-        }
-
-        .hero-btn {
-            color: white;
-            text-decoration: none;
-            background: var(--accent);
-            font-weight: 600;
-            display: inline-block;
-            margin-top: 40px;
-            padding: 14px 20px;
-            border-radius: 40px;
-            font-size: 18px;
-        }
-
-        .work-btn {
-            display: inline-block;
-            padding: 14px 20px;
-            background-color: white;
-            border-radius: 20px;
-            text-decoration: none;
-            color: black;
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .about {
-            margin-top: 20px;
-            padding: 80px 10%;
-            background: var(--light);
-        }
-        
-        
-        .about-container {
-            display: flex;
-            align-items: center;
-            gap: 60px;
-        }
-    
-        .about-text {
-            border: 8px solid #ffffff;
-            border-radius: 20px;
-            padding: 20px;
-            flex: 1;
-        }
-    
-    
-        .about-text p {
-            
-            line-height: 1.7;
-            margin-bottom: 15px;
-            max-width: 500px;
-        }
-    
-        .about-image {
-            flex: 1;
-            display: flex;
-            justify-content: center;
+  <style>
+    /* ---------- ROOT VARIABLES: premium, dark+light ---------- */
+    :root {
+      --primary-dark: #0b1c2f;      /* deep navy */
+      --primary: #1e3a5f;           /* refined blue-grey */
+      --accent: #2b7a62;            /* sophisticated teal – better than bright blue */
+      --accent-soft: #e7f1ef;       
+      --light-bg: #f8fafc;          /* almost white, clean */
+      --dark-bg: #0a1929;          
+      --card-white: #ffffff;
+      --text-dark: #171717;
+      --text-soft: #33475b;
+      --text-light: #f1f5f9;
+      --border-radius-card: 28px;
+      --border-radius-btn: 40px;
+      --shadow-sm: 0 10px 25px -5px rgba(0,0,0,0.03), 0 8px 10px -6px rgba(0,0,0,0.02);
+      --shadow-hover: 0 20px 30px -10px rgba(0,45,55,0.12);
+      --transition: all 0.25s ease;
     }
 
-        .about-image img {
-            width: 260px;
-            height: auto;
-            border-radius: 50px;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: white;
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* ---------- TYPOGRAPHY & LINKS ---------- */
+    a {
+      text-decoration: none;
+      transition: var(--transition);
     }
 
     .section-title {
-        font-size: 28px;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+      position: relative;
+      display: inline-block;
+      color: var(--primary-dark);
     }
 
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 70px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 4px;
+    }
+
+    /* ---------- HEADER – refined, lighter, crisp ---------- */
+    header {
+      background-color: white;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 2px 15px rgba(0,0,0,0.02);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 6%;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(0,0,0,0.02);
+    }
+
+    .brand {
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: linear-gradient(145deg, #0b1c2f, #1e3a5f);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    nav {
+      display: flex;
+      gap: 0.2rem;
+    }
+
+    nav a {
+      color: var(--primary-dark);
+      font-weight: 550;
+      padding: 0.6rem 1.2rem;
+      border-radius: 60px;
+      font-size: 1rem;
+    }
+
+    nav a:hover {
+      background-color: #f0f4f8;
+      color: var(--accent);
+    }
+
+    .nav-right a {
+      background-color: var(--accent);
+      color: white;
+      padding: 0.7rem 1.9rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.98rem;
+      letter-spacing: 0.3px;
+      box-shadow: 0 6px 16px rgba(43,122,98,0.18);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .nav-right a:hover {
+      background-color: #1f5e4b;
+      transform: scale(1.02);
+      box-shadow: 0 10px 22px rgba(43,122,98,0.25);
+    }
+
+    /* ---------- HERO – premium dark, elegant ---------- */
+    .hero {
+      background: linear-gradient(145deg, #0a1929 0%, #0e1f32 100%);
+      padding: 7rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "⚡";
+      position: absolute;
+      font-size: 20rem;
+      opacity: 0.02;
+      right: 0;
+      bottom: -50px;
+      transform: rotate(12deg);
+    }
+
+    .hero h1 {
+      color: white;
+      font-size: 3.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+      max-width: 900px;
+      margin: 0 auto;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      color: rgba(255,255,255,0.75);
+      font-size: 1.35rem;
+      max-width: 700px;
+      margin: 1.8rem auto 0;
+      font-weight: 400;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+      margin-top: 2.8rem;
+    }
+
+    .hero-btn {
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+      padding: 0.9rem 2.4rem;
+      border-radius: 60px;
+      font-size: 1.1rem;
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 12px 20px -8px rgba(0,0,0,0.2);
+    }
+
+    .hero-btn:hover {
+      background: #236b56;
+      transform: translateY(-4px);
+    }
+
+    .work-btn {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      font-weight: 600;
+      padding: 0.9rem 2.4rem;
+      border-radius: 60px;
+      font-size: 1.1rem;
+    }
+
+    .work-btn:hover {
+      background: rgba(255,255,255,0.18);
+      border-color: white;
+    }
+
+    /* ---------- ABOUT – balanced, with border refinement ---------- */
+    .about {
+      padding: 6rem 8%;
+      background: white;
+    }
+
+    .about-container {
+      display: flex;
+      align-items: center;
+      gap: 5rem;
+    }
+
+    .about-text {
+      flex: 1.1;
+      border-left: 6px solid var(--accent);
+      padding-left: 2rem;
+      background: transparent;
+      border-radius: 0;
+    }
+
+    .about-text p {
+      font-size: 1.2rem;
+      color: var(--text-soft);
+      margin-bottom: 1.2rem;
+      line-height: 1.7;
+    }
+
+    .about-text span {
+      font-weight: 700;
+      color: var(--primary-dark);
+      background: var(--accent-soft);
+      padding: 0.1rem 0.4rem;
+    }
+
+    .about-image {
+      flex: 0.9;
+      display: flex;
+      justify-content: center;
+    }
+
+    .about-image img {
+      width: 280px;
+      height: auto;
+      border-radius: 24px;
+      box-shadow: var(--shadow-hover);
+      border: 6px solid white;
+      transition: var(--transition);
+    }
+
+    .about-image img:hover {
+      transform: scale(1.01);
+    }
+
+    /* ---------- SERVICES – card grid, modern, no wrap issues ---------- */
     .service {
-        text-align: center;
-        background: var(--light);
-        align-items: center;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 20px;
-        margin-top: 20px;
-        gap: 20px;
+      background: var(--light-bg);
+      padding: 5rem 8%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+
+    .service .section-title {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .service .section-title::after {
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
     }
 
     .service-box {
-        max-width: 300px;
-        border-radius: 40px;
-        background: var(--dark);
-        padding: 20px;
-        color: #ffffff;
-    }
-    .service-box h3 {
-        margin-bottom: 20px;
-    }
-    .service-box p {
-        color: #444;
+      background: white;
+      max-width: 330px;
+      padding: 2.4rem 1.8rem;
+      border-radius: 28px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      border: 1px solid #fff;
+      text-align: center;
     }
 
+    .service-box:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--accent);
+    }
+
+    .service-box h3 {
+      font-size: 1.65rem;
+      font-weight: 700;
+      margin-bottom: 1.1rem;
+      color: var(--primary-dark);
+    }
+
+    .service-box p {
+      color: #4a5f73;
+      font-size: 1rem;
+    }
+
+    /* ---------- WHY US – checkmark with brand color ---------- */
     .why-us {
-        padding: 80px 40px;
-        background: var(--light);
-        margin-top: 20px;
+      padding: 5rem 8%;
+      background: white;
     }
 
     .why-us h3 {
-        text-align: center;
-        margin-bottom: 40px;
+      margin-bottom: 2.8rem;
     }
 
     .why-list {
-      max-width: 600px;
-      margin: auto;
+      max-width: 750px;
+      margin: 0;
       list-style: none;
-      font-size: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem 2rem;
     }
 
     .why-list li {
-      margin-bottom: 15px;
-      padding-left: 25px;
+      font-size: 1.2rem;
+      font-weight: 500;
+      padding-left: 2rem;
       position: relative;
+      color: #1e2f3f;
     }
 
     .why-list li::before {
-      content: "✔";
+      content: "✓";
+      color: var(--accent);
+      font-weight: 900;
       position: absolute;
       left: 0;
-      color: green;
+      font-size: 1.5rem;
+      top: -2px;
     }
 
+    /* ---------- APPROACH – subtle ---------- */
     .approach {
-        padding: 80px 20px;
-        text-align: center;
-        background: var(--light);
-        margin-top: 20px;
+      padding: 4rem 8%;
+      background: var(--light-bg);
+      text-align: center;
     }
 
-    .approach h3 {
-        margin-bottom: 20px;
+    .approach h3::after {
+      left: 50%;
+      transform: translateX(-50%);
     }
+
     .approach p {
-        color: #444;
+      font-size: 1.25rem;
+      color: var(--text-soft);
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
+    /* ---------- PROJECTS – grid, sophisticated ---------- */
     .projects {
-  padding: 80px 10%;
-  background: var(--light);
-}
+      padding: 6rem 8%;
+      background: white;
+    }
 
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 30px;
-  margin-top: 40px;
-}
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2.5rem;
+      margin-top: 2.5rem;
+    }
 
-.project-card {
-  background: white;
-  border-radius: 20px;
-  padding: 20px;
-  text-align: left;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-}
+    .project-card {
+      background: white;
+      border-radius: 24px;
+      padding: 1.8rem 1.8rem 2.2rem;
+      box-shadow: 0 12px 28px -6px rgba(0,0,0,0.03);
+      transition: var(--transition);
+      border: 1px solid #f0f3f7;
+    }
 
-.project-card img {
-  width: 100%;
-  border-radius: 14px;
-  margin-bottom: 15px;
-}
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 28px 38px -12px rgba(43,122,98,0.12);
+      border-color: var(--accent);
+    }
 
-.project-card h4 {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
+    .project-card img {
+      width: 100%;
+      border-radius: 18px;
+      margin-bottom: 1.5rem;
+      border: 1px solid #edf2f7;
+      background: #fafcfc;
+    }
 
-.project-card p {
-  font-size: 16px;
-  color: #475569;
-  margin-bottom: 15px;
-}
+    .project-card h4 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+      color: #0b1f2c;
+    }
 
-.project-card a {
-  text-decoration: none;
-  color: var(--accent);
-  font-weight: 600;
-}
+    .project-card p {
+      color: #4a5c6b;
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
 
+    .project-card a {
+      font-weight: 700;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 2px;
+    }
 
+    .project-card a i {
+      font-size: 0.9rem;
+    }
+
+    .project-card a:hover {
+      border-bottom-color: var(--accent);
+      gap: 0.7rem;
+    }
+
+    /* ---------- CTA – dark, magnetic ---------- */
     .cta {
-        background: var(--dark);
-        padding: 60px 20px;
-        text-align: center;
-        margin-top: 20px;
+      background: linear-gradient(105deg, #0a1c2c 0%, #0b1f2c 100%);
+      padding: 5.5rem 2rem;
+      text-align: center;
+      margin-top: 0;
     }
 
     .cta h3 {
-        color: #ffffff;
-        font-size: 32px;
+      color: white;
+      font-size: 2.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      max-width: 800px;
+      margin: 0 auto;
     }
 
     .cta p {
-        color: #444;
-        font-size: 18px;
-        margin-top: 15px;
+      color: #b3cad6;
+      font-size: 1.3rem;
+      margin-top: 1rem;
+      opacity: 0.9;
     }
 
-    .contact-btn {
-        margin-top: 20px;
-        padding: 14px 30px;
-        text-decoration: none;
-        color: #ffffff;
-        font-weight: 600;
-        background: var(--accent);
-        border-radius: 40px;
-        display: inline-block;
+    .cta .contact-btn {
+      background: var(--accent);
+      color: white;
+      font-size: 1.25rem;
+      padding: 1rem 3rem;
+      border-radius: 60px;
+      font-weight: 700;
+      margin-top: 2.4rem;
+      display: inline-block;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 20px 30px -8px rgba(0,0,0,0.3);
     }
 
-    .contact-btn:hover {
-        background: black;
-        color: #ffffff;
+    .cta .contact-btn:hover {
+      background: #1f5a4a;
+      transform: scale(1.03);
     }
-    </style>
+
+    /* ---------- MOBILE RESPONSIVE – flawless ---------- */
+    @media (max-width: 900px) {
+      .about-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      .about-text {
+        border-left: none;
+        padding-left: 0;
+        border-top: 6px solid var(--accent);
+        padding-top: 1.8rem;
+      }
+      .section-title::after {
+        left: 0;
+        transform: none;
+      }
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;       /* keeps original mobile nav hide, can be replaced by hamburger but minimal */
+      }
+
+      header {
+        padding: 1rem 5%;
+      }
+
+      .brand {
+        font-size: 1.5rem;
+      }
+
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .hero-btn, .work-btn {
+        width: 80%;
+        padding: 0.9rem 1rem;
+      }
+
+      .about-image img {
+        width: 220px;
+      }
+
+      .service-box {
+        max-width: 100%;
+      }
+
+      .why-list {
+        grid-template-columns: 1fr;
+      }
+
+      .cta h3 {
+        font-size: 2rem;
+      }
+    }
+
+    /* ---------- ADDITIONAL TOUCHES – icons, micro-interactions ---------- */
+    .service-box i {
+      font-size: 2.4rem;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+
+    footer {
+      background: #0b1c2f;
+      padding: 2rem 8%;
+      text-align: center;
+      color: #a2bbcc;
+      border-top: 1px solid #1f3a4f;
+    }
+
+    footer span {
+      color: white;
+      font-weight: 500;
+    }
+
+    /* placeholder image style – if image missing, still looks professional */
+    img {
+      object-fit: cover;
+      background-color: #eaf0f3;
+    }
+
+    .approach i {
+      color: var(--accent);
+      margin-right: 6px;
+    }
+  </style>
 </head>
 <body>
-    
-    <header>
-        <div class="brand">Sohail Khan</div>
-        <nav>
-            <a href="/">Home</a>
-            <a href="#about">About</a>
-            <a href="#service">Service</a>
-            <a href="#projects">Projects</a>
-        </nav>
-        <div class="nav-right">
-            <a href="#cta" class="contact-btn">Contact</a>
-        </div>
-    </header>
 
-    <section class="hero">
-        <h1>I Build Clean, Responsive, and User-Friendly websites</h1>
-        <p>Helping businesses and individuals create a strong online presence with modern, fast, and reliable websites.</p>
-            <a href="contact" class="hero-btn">Contact Me</a>
-            <a href="projects" class="work-btn">View Work</a>
-    </section>
+<header>
+  <div class="brand">Sohail Khan</div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#service">Services</a>
+    <a href="#projects">Projects</a>
+  </nav>
+  <div class="nav-right">
+    <a href="#cta"> <i class="fas fa-paper-plane" style="margin-right: 6px;"></i> Contact</a>
+  </div>
+</header>
 
-    <section class="about" id="about">
-        <div class="about-container">
-        <h3 class="section-title">ABOUT ME</h3>
-        <div class="about-text">
-        <p><span>Hi, I'm Sohail.</span> I am a web developer focused on building simple, effective, and responsive websites.</p>
-        <p>My goal is to create websites that look professional, load fast, and deliver clear information to users.</p>
-        <p>I believe good websites are not about flashy design they are about clarity and usability.</p>
-        </div>
-        <div class="about-image">
-            <img src="sohail.jpeg" alt="Sohail">
-        </div>
-        </div>
-    </section>
+<!-- HERO section with refined messaging -->
+<section class="hero" id="home">
+  <h1>I Build Clean, Fast & Human-Centered Websites.</h1>
+  <p>Helping businesses & individuals create strong online presence — with modern, reliable, and responsive craft.</p>
+  <div class="hero-buttons">
+    <a href="#cta" class="hero-btn"><i class="fas fa-comment" style="margin-right: 8px;"></i> Contact Me</a>
+    <a href="#projects" class="work-btn"><i class="fas fa-arrow-right" style="margin-right: 6px;"></i> View Work</a>
+  </div>
+</section>
 
-    <section class="service" id="service">
-        <h3 class="section-title">SERVICES I OFFER</h3>
-        <div class="service-box">
-            <h3>Website Development</h3>
-            <p>Clean, responsive websites using modern HTML, CSS, and JavaScipt.</p>
-        </div>
-        <div class="service-box">
-            <h3>Business Websites</h3>
-            <p>Professional websites for shops, clinics, gyms, and service providers.</p>
-        </div>
-        <div class="service-box">
-            <h3>Landing Pages</h3>
-            <p>Focused pages designed to convert visitors into leads.</p>
-        </div>
-    </section>
+<!-- ABOUT – premium, clean & personal -->
+<section class="about" id="about">
+  <div class="about-container">
+    <div class="about-text">
+      <h3 class="section-title">ABOUT ME</h3>
+      <p><span>Hi, I'm Sohail.</span> Web developer focused on simplicity, performance, and clarity.</p>
+      <p>My goal: websites that look professional, load instantly, and communicate clearly — no noise, just function.</p>
+      <p>I believe good design is invisible. It’s not about flashy trends, but about usability and trust.</p>
+    </div>
+    <div class="about-image">
+      <!-- professional placeholder – if sohail.jpeg missing, shows subtle background (use font awesome avatar) -->
+      <img src="sohail.png" alt="Sohail Khan portrait" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22280%22%20height%3D%22280%22%20viewBox%3D%220%200%20280%20280%22%3E%3Crect%20width%3D%22280%22%20height%3D%22280%22%20fill%3D%22%232b7a62%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2236%22%20fill%3D%22%23fff%22%20dy%3D%22.3em%22%20text-anchor%3D%22middle%22%3ESK%3C%2Ftext%3E%3C%2Fsvg%3E'">
+    </div>
+  </div>
+</section>
 
-    <section class="why-us">
-        <h3 class="section-title">WHY WORK WITH ME</h3>
-        <ul class="why-list">
-            <li>Clean and structured code</li>
-            <li>Mobile-friendly design</li>
-            <li>Clear communication</li>
-            <li>On-time delivery</li>
-            <li>Practical solutions</li>
-        </ul>
-    </section>
+<!-- SERVICES – Icons and modern cards -->
+<section class="service" id="service">
+  <h3 class="section-title">SERVICES I OFFER</h3>
+  <div class="service-box">
+    <i class="fas fa-code"></i>
+    <h3>Web Dev</h3>
+    <p>Semantic HTML5, modern CSS3, interactive JavaScript — fully responsive.</p>
+  </div>
+  <div class="service-box">
+    <i class="fas fa-briefcase"></i>
+    <h3>Business sites</h3>
+    <p>For clinics, shops, gyms & professional services — designed to build trust.</p>
+  </div>
+  <div class="service-box">
+    <i class="fas fa-bullseye"></i>
+    <h3>Landing pages</h3>
+    <p>High-conversion, campaign-ready pages that turn visitors into customers.</p>
+  </div>
+</section>
 
-    <section class="approach">
-        <h3 class="section-title">MY APPROACH</h3>
-        <p>I first understand the client's requirement, target audience, and goal.</p>
-        <p>Then I design and develop a solution that fits their business needs.</p>
-    </section>
+<!-- WHY WORK WITH ME – structured list with check -->
+<section class="why-us">
+  <h3 class="section-title">WHY WORK WITH ME</h3>
+  <ul class="why-list">
+    <li>Clean, maintainable code</li>
+    <li>Mobile-first responsive design</li>
+    <li>Direct & honest communication</li>
+    <li>Always on-time delivery</li>
+    <li>No over-engineering — just practical solutions</li>
+  </ul>
+</section>
 
-    <section class="projects" id="projects">
-        <h3 class="section-title">PROJECTS</h3>
+<!-- MY APPROACH – calm & confident -->
+<section class="approach">
+  <h3 class="section-title">MY APPROACH</h3>
+  <p><i class="fas fa-chevron-circle-right"></i> First, I deeply understand your audience and business goal.</p>
+  <p><i class="fas fa-chevron-circle-right"></i> Then I craft a tailored, fast, and simple solution — nothing extra.</p>
+</section>
 
-        <div class="project-grid">
+<!-- PROJECTS – Elevate with real project visuals, now with hover icons -->
+<section class="projects" id="projects">
+  <h3 class="section-title">PROJECTS</h3>
+  <div class="project-grid">
+    <!-- clinic project -->
+    <div class="project-card">
+      <img src="Project1.png" alt="Aarogya Prime clinic website" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22400%22%20height%3D%22240%22%20viewBox%3D%220%200%20400%20240%22%3E%3Crect%20width%3D%22400%22%20height%3D%22240%22%20fill%3D%22%23e7f1ef%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2220%22%20fill%3D%22%232b7a62%22%20dy%3D%22.3em%22%20text-anchor%3D%22middle%22%3EAarogya%20Prime%3C%2Ftext%3E%3C%2Fsvg%3E'">
+      <h4>Aarogya Prime – Medical Clinic</h4>
+      <p>Appointment-focused design with genuine trust signals. Fully responsive, accessible.</p>
+      <a href="https://sohailk-cpu.github.io/Aarogya-Prime/" target="_blank">View project <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <!-- business landing page -->
+    <div class="project-card">
+      <img src="Project2.png" alt="Lead generation business page" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22400%22%20height%3D%22240%22%20viewBox%3D%220%200%20400%20240%22%3E%3Crect%20width%3D%22400%22%20height%3D%22240%22%20fill%3D%22%23f0f4fa%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2220%22%20fill%3D%22%232b7a62%22%20dy%3D%22.3em%22%20text-anchor%3D%22middle%22%3ELead%20Landing%3C%2Ftext%3E%3C%2Fsvg%3E'">
+      <h4>Small Business – Lead Generation</h4>
+      <p>Built for service businesses running ads; clear CTA, high readability, fast load.</p>
+      <a href="https://page2lead.in" target="_blank">View project <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <!-- gym website -->
+    <div class="project-card">
+      <img src="Project3.png" alt="IronCore Gym website" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22400%22%20height%3D%22240%22%20viewBox%3D%220%200%20400%20240%22%3E%3Crect%20width%3D%22400%22%20height%3D%22240%22%20fill%3D%22%231e2f3f%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2220%22%20fill%3D%22%23ffffff%22%20dy%3D%22.3em%22%20text-anchor%3D%22middle%22%3EIronCore%20Gym%3C%2Ftext%3E%3C%2Fsvg%3E'">
+      <h4>IronCore – Modern Gym</h4>
+      <p>Bold, motivational design. Converts visitors into members. Clean layout + schedule.</p>
+      <a href="https://sohaildev899.github.io/IronCore/" target="_blank">View project <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
 
-          <div class="project-card">
-            <img src="Project1.png" alt="Clinic Website">
-            <h4>Clinic Website</h4>
-            <p>Responsive website designed for a local medical clinic with appointment-focused layout.</p>
-          <a href="https://blueshote02-arch.github.io/Clinic-Web/">View Project</a>
-          </div>
+<!-- CALL TO ACTION – stronger, friendlier -->
+<section class="cta" id="cta">
+  <h3>Ready to build a professional, high‑performance website?</h3>
+  <p>Let's talk about your project — no pressure, just clear ideas.</p>
+  <a href="#" class="contact-btn"><i class="fas fa-phone-alt" style="margin-right: 8px;"></i> Call / Connect</a>
+</section>
 
-          <div class="project-card">
-            <img src="Project2.png" alt="Business Landing Page">
-            <h4>Business Landing Page</h4>
-            <p>High-conversion landing page built for a service-based business.</p>
-            <a href="https://blueshote02-arch.github.io/Business/">View Project</a>
-          </div>
+<!-- simple footer: shows ownership & social proof -->
+<footer>
+  <span>Sohail Khan</span> · clean web portfolio · © 2025
+  <span style="display: block; margin-top: 0.6rem; font-size: 0.9rem; color: #8ca3b9;">
+    <i class="fas fa-mobile-alt"></i> responsive · <i class="fas fa-tachometer-alt"></i> fast · <i class="fas fa-check-circle"></i> reliable
+  </span>
+</footer>
 
-          <div class="project-card">
-             <img src="Project3.png" alt="Portfolio Website">
-             <h4>Gym Website</h4>
-             <p>Clean and modern portfolio website showcasing skills and services.</p>
-             <a href="https://blueshote02-arch.github.io/IronPulse-gym/">View Project</a>
-         </div>
-
-       </div>
-    </section>
-
-    <section class="cta" id="cta">
-        <h3>Looking to build a professional website?</h3>
-        <p>Let's discuss your project today.</p>
-        <a href="/" class="contact-btn">Call Me</a>
-    </section>
+<!-- minor: link fix for home -->
+<script>
+  // smooth nav highlight, optional
+  document.querySelectorAll('nav a, .nav-right a, .hero-btn, .work-btn').forEach(link => {
+    link.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+</script>
 </body>
 </html>
