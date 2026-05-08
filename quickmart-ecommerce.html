@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuickMart — Shop Everything</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --blue:#2563EB;--blue2:#1D4ED8;--blue-light:#EFF6FF;
+  --bg:#F9FAFB;--white:#FFFFFF;--dark:#111827;
+  --text:#374151;--grey:#9CA3AF;--border:#E5E7EB;
+  --green:#16A34A;--red:#DC2626;
+  --font:'Plus Jakarta Sans',sans-serif;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text)}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:var(--white);border-bottom:1px solid var(--border);padding:0 48px;height:68px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 8px rgba(0,0,0,0.06)}
+.logo{font-size:22px;font-weight:800;color:var(--dark);letter-spacing:-0.03em}
+.logo span{color:var(--blue)}
+.nav-mid{display:flex;align-items:center;gap:0;background:var(--bg);border:1px solid var(--border);border-radius:100px;overflow:hidden;max-width:400px;width:100%}
+.search-input{flex:1;border:none;background:transparent;padding:10px 20px;font-family:var(--font);font-size:14px;color:var(--dark);outline:none}
+.search-btn{background:var(--blue);color:var(--white);border:none;padding:10px 20px;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;border-radius:0 100px 100px 0}
+.nav-right{display:flex;align-items:center;gap:20px}
+.nav-icon-btn{position:relative;width:42px;height:42px;border-radius:50%;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:all 0.2s}
+.nav-icon-btn:hover{background:var(--blue-light);border-color:var(--blue)}
+.cart-count{position:absolute;top:-4px;right:-4px;width:18px;height:18px;background:var(--red);color:var(--white);border-radius:50%;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}
+
+/* HERO BANNER */
+#hero{background:linear-gradient(135deg,#1E3A8A,#1D4ED8,#2563EB);padding:60px 48px;position:relative;overflow:hidden}
+.hero-shapes{position:absolute;inset:0;overflow:hidden}
+.shape{position:absolute;border-radius:50%;opacity:0.1}
+.shape1{width:400px;height:400px;background:var(--white);top:-100px;right:-100px}
+.shape2{width:200px;height:200px;background:var(--white);bottom:-50px;left:200px}
+.hero-content{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;z-index:1}
+.hero-badge2{display:inline-block;background:rgba(255,255,255,0.15);color:var(--white);font-size:12px;font-weight:700;padding:6px 16px;border-radius:100px;margin-bottom:20px;letter-spacing:0.06em}
+.hero-h{font-size:clamp(32px,4vw,52px);font-weight:800;color:var(--white);line-height:1.1;letter-spacing:-0.03em;margin-bottom:16px}
+.hero-h span{color:#93C5FD}
+.hero-p{font-size:16px;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:32px}
+.hero-offer{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:20px 24px;display:inline-block}
+.offer-code{font-size:22px;font-weight:800;color:var(--white);letter-spacing:0.08em}
+.offer-sub{font-size:13px;color:rgba(255,255,255,0.6);margin-top:4px}
+.hero-img-side{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.hero-prod-mini{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:20px;text-align:center;backdrop-filter:blur(10px)}
+.hpm-emoji{font-size:48px;display:block;margin-bottom:8px}
+.hpm-name{font-size:13px;font-weight:600;color:rgba(255,255,255,0.9);margin-bottom:4px}
+.hpm-price{font-size:16px;font-weight:800;color:#93C5FD}
+
+/* CATEGORIES */
+#cats{padding:60px 48px}
+.section-wrap{max-width:1200px;margin:0 auto}
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px}
+.sec-title{font-size:24px;font-weight:800;color:var(--dark);letter-spacing:-0.02em}
+.view-all{font-size:14px;font-weight:600;color:var(--blue);text-decoration:none}
+.cats-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.cat-item{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:20px 12px;text-align:center;cursor:pointer;transition:all 0.25s}
+.cat-item:hover,.cat-item.active{background:var(--blue-light);border-color:var(--blue);transform:translateY(-3px)}
+.cat-emoji{font-size:32px;display:block;margin-bottom:10px}
+.cat-name{font-size:13px;font-weight:600;color:var(--text)}
+.cat-item:hover .cat-name,.cat-item.active .cat-name{color:var(--blue)}
+
+/* PRODUCTS */
+#products{padding:0 48px 80px}
+.filter-row{display:flex;align-items:center;gap:12px;margin-bottom:28px;flex-wrap:wrap}
+.filter-label{font-size:14px;font-weight:600;color:var(--text)}
+.filter-btn{padding:8px 18px;border-radius:100px;font-family:var(--font);font-size:13px;font-weight:600;border:1.5px solid var(--border);cursor:pointer;transition:all 0.2s;background:var(--white)}
+.filter-btn.active,.filter-btn:hover{background:var(--blue);border-color:var(--blue);color:var(--white)}
+.products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.prod-card{background:var(--white);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all 0.3s;position:relative}
+.prod-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.1);border-color:rgba(37,99,235,0.2)}
+.prod-badge{position:absolute;top:12px;left:12px;background:var(--red);color:var(--white);font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px}
+.prod-wishlist{position:absolute;top:12px;right:12px;width:32px;height:32px;background:var(--white);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;transition:all 0.2s}
+.prod-wishlist:hover{background:#FEF2F2;border-color:var(--red)}
+.prod-wishlist.liked{background:#FEF2F2;border-color:var(--red)}
+.prod-img{height:180px;display:flex;align-items:center;justify-content:center;font-size:72px}
+.prod-body{padding:16px}
+.prod-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--grey);margin-bottom:6px}
+.prod-name{font-size:15px;font-weight:700;color:var(--dark);margin-bottom:8px;line-height:1.3}
+.prod-rating{display:flex;align-items:center;gap:4px;margin-bottom:12px}
+.stars-row{color:#FBBF24;font-size:13px}
+.rating-num{font-size:12px;color:var(--grey);font-weight:500}
+.prod-price-row{display:flex;align-items:center;justify-content:space-between}
+.prod-price{font-size:20px;font-weight:800;color:var(--dark)}
+.prod-old{font-size:13px;color:var(--grey);text-decoration:line-through;margin-left:6px;font-weight:400}
+.add-cart-btn{background:var(--blue);color:var(--white);border:none;padding:8px 16px;border-radius:100px;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px}
+.add-cart-btn:hover{background:var(--blue2);transform:scale(1.05)}
+.add-cart-btn.added{background:var(--green)}
+
+/* CART SIDEBAR */
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;opacity:0;pointer-events:none;transition:opacity 0.3s}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-panel{position:fixed;top:0;right:-420px;width:420px;height:100%;background:var(--white);z-index:201;transition:right 0.35s ease;display:flex;flex-direction:column;box-shadow:-8px 0 32px rgba(0,0,0,0.15)}
+.cart-panel.open{right:0}
+.cart-head{padding:24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.cart-head-title{font-size:20px;font-weight:800;color:var(--dark)}
+.cart-close{width:36px;height:36px;border-radius:50%;background:var(--bg);border:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.cart-items{flex:1;overflow-y:auto;padding:20px}
+.cart-empty{text-align:center;padding:60px 20px;color:var(--grey)}
+.cart-empty-icon{font-size:64px;display:block;margin-bottom:16px}
+.cart-item{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--border)}
+.cart-item-img{width:64px;height:64px;background:var(--bg);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0}
+.cart-item-info{flex:1}
+.cart-item-name{font-size:14px;font-weight:700;color:var(--dark);margin-bottom:4px}
+.cart-item-price{font-size:16px;font-weight:800;color:var(--blue)}
+.cart-item-qty{display:flex;align-items:center;gap:10px;margin-top:8px}
+.qty-btn{width:28px;height:28px;border-radius:8px;border:1px solid var(--border);background:var(--bg);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700}
+.qty-num{font-size:15px;font-weight:700;color:var(--dark);min-width:20px;text-align:center}
+.cart-remove{background:none;border:none;color:var(--grey);font-size:18px;cursor:pointer;margin-left:auto}
+.cart-footer{padding:24px;border-top:1px solid var(--border)}
+.cart-total-row{display:flex;justify-content:space-between;margin-bottom:8px}
+.cart-total-label{font-size:14px;color:var(--grey)}
+.cart-total-val{font-size:14px;font-weight:600;color:var(--dark)}
+.cart-grand{display:flex;justify-content:space-between;margin:16px 0;padding-top:16px;border-top:1px solid var(--border)}
+.cart-grand-label{font-size:16px;font-weight:800;color:var(--dark)}
+.cart-grand-val{font-size:20px;font-weight:800;color:var(--blue)}
+.checkout-btn{width:100%;background:var(--blue);color:var(--white);border:none;padding:16px;border-radius:100px;font-family:var(--font);font-size:16px;font-weight:800;cursor:pointer;transition:all 0.2s}
+.checkout-btn:hover{background:var(--blue2);transform:translateY(-1px)}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  nav,#hero,#cats,#products{padding-left:24px;padding-right:24px}
+  .products-grid{grid-template-columns:repeat(2,1fr)}
+  .cats-grid{grid-template-columns:repeat(3,1fr)}
+  .hero-content{grid-template-columns:1fr}
+  .cart-panel{width:100%;right:-100%}
+}
+@media(max-width:768px){
+  .nav-mid{display:none}
+  .products-grid{grid-template-columns:repeat(2,1fr)}
+  .cats-grid{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Quick<span>Mart</span></div>
+  <div class="nav-mid">
+    <input class="search-input" placeholder="Search for products...">
+    <button class="search-btn">Search</button>
+  </div>
+  <div class="nav-right">
+    <div class="nav-icon-btn" onclick="toggleCart()">🛒<div class="cart-count" id="cartCount">0</div></div>
+    <div class="nav-icon-btn">❤️</div>
+    <div class="nav-icon-btn">👤</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-shapes"><div class="shape shape1"></div><div class="shape shape2"></div></div>
+  <div class="hero-content">
+    <div>
+      <div class="hero-badge2">🔥 Mega Sale — Up to 60% Off</div>
+      <h1 class="hero-h">Shop Smart,<br>Save <span>Bigger</span></h1>
+      <p class="hero-p">Thousands of products, unbeatable prices. From electronics to fashion — everything you need, delivered fast.</p>
+      <div class="hero-offer">
+        <div class="offer-code">FIRST20</div>
+        <div class="offer-sub">Use code for 20% off your first order</div>
+      </div>
+    </div>
+    <div class="hero-img-side">
+      <div class="hero-prod-mini"><span class="hpm-emoji">📱</span><div class="hpm-name">Smartphones</div><div class="hpm-price">From ₹8,999</div></div>
+      <div class="hero-prod-mini"><span class="hpm-emoji">👟</span><div class="hpm-name">Sneakers</div><div class="hpm-price">From ₹1,299</div></div>
+      <div class="hero-prod-mini"><span class="hpm-emoji">💻</span><div class="hpm-name">Laptops</div><div class="hpm-price">From ₹34,999</div></div>
+      <div class="hero-prod-mini"><span class="hpm-emoji">🎧</span><div class="hpm-name">Headphones</div><div class="hpm-price">From ₹999</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section id="cats">
+  <div class="section-wrap">
+    <div class="sec-header">
+      <div class="sec-title">Shop by Category</div>
+      <a href="#" class="view-all">View All →</a>
+    </div>
+    <div class="cats-grid">
+      <div class="cat-item active" onclick="filterCat('all',this)"><span class="cat-emoji">🛍️</span><div class="cat-name">All</div></div>
+      <div class="cat-item" onclick="filterCat('electronics',this)"><span class="cat-emoji">📱</span><div class="cat-name">Electronics</div></div>
+      <div class="cat-item" onclick="filterCat('fashion',this)"><span class="cat-emoji">👕</span><div class="cat-name">Fashion</div></div>
+      <div class="cat-item" onclick="filterCat('home',this)"><span class="cat-emoji">🏠</span><div class="cat-name">Home</div></div>
+      <div class="cat-item" onclick="filterCat('sports',this)"><span class="cat-emoji">⚽</span><div class="cat-name">Sports</div></div>
+      <div class="cat-item" onclick="filterCat('books',this)"><span class="cat-emoji">📚</span><div class="cat-name">Books</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="section-wrap">
+    <div class="sec-header">
+      <div class="sec-title">Featured Products</div>
+      <a href="#" class="view-all">View All →</a>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">Sort:</span>
+      <button class="filter-btn active">Popular</button>
+      <button class="filter-btn">Price: Low</button>
+      <button class="filter-btn">Price: High</button>
+      <button class="filter-btn">Newest</button>
+    </div>
+    <div class="products-grid" id="productsGrid">
+
+      <div class="prod-card" data-cat="electronics">
+        <div class="prod-badge">-30%</div>
+        <div class="prod-wishlist" onclick="toggleWish(this)">🤍</div>
+        <div class="prod-img" style="background:#EFF6FF">📱</div>
+        <div class="prod-body">
+          <div class="prod-cat">Electronics</div>
+          <div class="prod-name">ProMax X12 Smartphone 128GB</div>
+          <div class="prod-rating"><span class="stars-row">★★★★★</span><span class="rating-num">(428)</span></div>
+          <div class="prod-price-row">
+            <div><span class="prod-price">₹12,999</span><span class="prod-old">₹18,499</span></div>
+            <button class="add-cart-btn" onclick="addToCart(this,'📱','ProMax X12',12999)">🛒 Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-card" data-cat="electronics">
+        <div class="prod-badge">-40%</div>
+        <div class="prod-wishlist" onclick="toggleWish(this)">🤍</div>
+        <div class="prod-img" style="background:#F0FDF4">🎧</div>
+        <div class="prod-body">
+          <div class="prod-cat">Electronics</div>
+          <div class="prod-name">SoundWave Pro Wireless Headphones</div>
+          <div class="prod-rating"><span class="stars-row">★★★★☆</span><span class="rating-num">(215)</span></div>
+          <div class="prod-price-row">
+            <div><span class="prod-price">₹1,799</span><span class="prod-old">₹2,999</span></div>
+            <button class="add-cart-btn" onclick="addToCart(this,'🎧','SoundWave Pro',1799)">🛒 Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-card" data-cat="fashion">
+        <div class="prod-wishlist" onclick="toggleWish(this)">🤍</div>
+        <div class="prod-img" style="background:#FFF7ED">👟</div>
+        <div class="prod-body">
+          <div class="prod-cat">Fashion</div>
+          <div class="prod-name">AirStep Running Sneakers</div>
+          <div class="prod-rating"><span class="stars-row">★★★★★</span><span class="rating-num">(841)</span></div>
+          <div class="prod-price-row">
+            <div><span class="prod-price">₹2,499</span><span class="prod-old">₹3,299</span></div>
+            <button class="add-cart-btn" onclick="addToCart(this,'👟','AirStep Sneakers',2499)">🛒 Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-card" data-cat="home">
+        <div class="prod-badge">New</div>
+        <div class="prod-wishlist" onclick="toggleWish(this)">🤍</div>
+        <div class="prod-img" style="background:#FDF4FF">🕯️</div>
+        <div class="prod-body">
+          <div class="prod-cat">Home</div>
+          <div class="prod-name">Aroma Luxury Scented Candle Set</div>
+          <div class="prod-rating"><span class="stars-row">★★★★☆</span><span class="rating-num">(127)</span></div>
+          <div class="prod-price-row">
+            <div><span class="prod-price">₹799</span></div>
+            <button class="add-cart-btn" onclick="addToCart(this,'🕯️','Aroma Candle Set',799)">🛒 Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-card" data-cat="electronics">
+        <div class="prod-badge">-25%</div>
+        <div class="prod-wishlist" onclick="toggleWish(this)">🤍</div>
+        <div class="prod-img" style="background:#F0F9FF">⌚</div>
+        <div class="prod-body">
+          <div class="prod-cat">Electronics</div>
+          <div class="prod-name">SmartTime Fitness Watch Series 5</div>
+          <div class="prod-rating"><span class="stars-row">★★★★★</span><span class="rating-num">(362)</span></div>
+          <div class="prod-price-row">
+            <div><span class="prod-price">₹3,499</span><span class="prod-old">₹4,699</span></div>
+            <button class="add-cart-btn" onclick="addToCart(this,'⌚','SmartTime Watch',3499)">🛒 Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-card" data-cat="fashion">
+        <div class="prod-wishlist" onclick="toggleWish(this)">🤍</div>
+        <div class="prod-img" style="background:#FFF1F2">👜</div>
+        <div class="prod-body">
+          <div class="prod-cat">Fashion</div>
+          <div class="prod-name">Luxe Leather Crossbody Bag</div>
+          <div class="prod-rating"><span class="stars-row">★★★★☆</span><span class="rating-num">(94)</span></div>
+          <div class="prod-price-row">
+            <div><span class="prod-price">₹1,599</span><span class="prod-old">₹2,199</span></div>
+            <button class="add-cart-btn" onclick="addToCart(this,'👜','Luxe Leather Bag',1599)">🛒 Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-card" data-cat="sports">
+        <div class="prod-badge">-15%</div>
+        <div class="prod-wishlist" onclick="toggleWish(this)">🤍</div>
+        <div class="prod-img" style="background:#F0FDF4">🏋️</div>
+        <div class="prod-body">
+          <div class="prod-cat">Sports</div>
+          <div class="prod-name">FlexPro Resistance Bands Set</div>
+          <div class="prod-rating"><span class="stars-row">★★★★★</span><span class="rating-num">(518)</span></div>
+          <div class="prod-price-row">
+            <div><span class="prod-price">₹599</span><span class="prod-old">₹699</span></div>
+            <button class="add-cart-btn" onclick="addToCart(this,'🏋️','FlexPro Bands',599)">🛒 Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-card" data-cat="books">
+        <div class="prod-wishlist" onclick="toggleWish(this)">🤍</div>
+        <div class="prod-img" style="background:#FFFBEB">📗</div>
+        <div class="prod-body">
+          <div class="prod-cat">Books</div>
+          <div class="prod-name">Atomic Habits — James Clear</div>
+          <div class="prod-rating"><span class="stars-row">★★★★★</span><span class="rating-num">(2.1k)</span></div>
+          <div class="prod-price-row">
+            <div><span class="prod-price">₹399</span><span class="prod-old">₹599</span></div>
+            <button class="add-cart-btn" onclick="addToCart(this,'📗','Atomic Habits',399)">🛒 Add</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-head">
+    <div class="cart-head-title">🛒 Your Cart (<span id="cartItemCount">0</span>)</div>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <span class="cart-empty-icon">🛒</span>
+      <div style="font-size:16px;font-weight:700;color:#374151;margin-bottom:8px">Cart is Empty</div>
+      <div style="font-size:14px">Add items to get started!</div>
+    </div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total-row"><span class="cart-total-label">Subtotal</span><span class="cart-total-val" id="cartSubtotal">₹0</span></div>
+    <div class="cart-total-row"><span class="cart-total-label">Delivery</span><span class="cart-total-val" style="color:#16A34A">FREE</span></div>
+    <div class="cart-grand"><span class="cart-grand-label">Total</span><span class="cart-grand-val" id="cartTotal">₹0</span></div>
+    <button class="checkout-btn" onclick="checkout()">Proceed to Checkout →</button>
+  </div>
+</div>
+
+<script>
+let cart = [];
+
+function toggleCart() {
+  document.getElementById('cartOverlay').classList.toggle('open');
+  document.getElementById('cartPanel').classList.toggle('open');
+}
+
+function addToCart(btn, emoji, name, price) {
+  const existing = cart.find(i => i.name === name);
+  if (existing) { existing.qty++; }
+  else { cart.push({ emoji, name, price, qty: 1 }); }
+  btn.textContent = '✓ Added';
+  btn.classList.add('added');
+  setTimeout(() => { btn.textContent = '🛒 Add'; btn.classList.remove('added'); }, 1500);
+  updateCart();
+}
+
+function updateCart() {
+  const count = cart.reduce((a, i) => a + i.qty, 0);
+  document.getElementById('cartCount').textContent = count;
+  document.getElementById('cartItemCount').textContent = count;
+  const total = cart.reduce((a, i) => a + i.price * i.qty, 0);
+  document.getElementById('cartSubtotal').textContent = '₹' + total.toLocaleString('en-IN');
+  document.getElementById('cartTotal').textContent = '₹' + total.toLocaleString('en-IN');
+
+  const itemsEl = document.getElementById('cartItems');
+  const footerEl = document.getElementById('cartFooter');
+
+  if (cart.length === 0) {
+    itemsEl.innerHTML = '<div class="cart-empty"><span class="cart-empty-icon">🛒</span><div style="font-size:16px;font-weight:700;color:#374151;margin-bottom:8px">Cart is Empty</div><div style="font-size:14px">Add items to get started!</div></div>';
+    footerEl.style.display = 'none';
+  } else {
+    footerEl.style.display = 'block';
+    itemsEl.innerHTML = cart.map((item, idx) => `
+      <div class="cart-item">
+        <div class="cart-item-img">${item.emoji}</div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-price">₹${item.price.toLocaleString('en-IN')}</div>
+          <div class="cart-item-qty">
+            <button class="qty-btn" onclick="changeQty(${idx},-1)">−</button>
+            <div class="qty-num">${item.qty}</div>
+            <button class="qty-btn" onclick="changeQty(${idx},1)">+</button>
+            <button class="cart-remove" onclick="removeItem(${idx})">🗑️</button>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+}
+
+function changeQty(idx, delta) {
+  cart[idx].qty += delta;
+  if (cart[idx].qty <= 0) cart.splice(idx, 1);
+  updateCart();
+}
+
+function removeItem(idx) { cart.splice(idx, 1); updateCart(); }
+
+function toggleWish(btn) {
+  btn.classList.toggle('liked');
+  btn.textContent = btn.classList.contains('liked') ? '❤️' : '🤍';
+}
+
+function filterCat(cat, el) {
+  document.querySelectorAll('.cat-item').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.prod-card').forEach(card => {
+    card.style.display = (cat === 'all' || card.dataset.cat === cat) ? 'block' : 'none';
+  });
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+function checkout() {
+  alert('🎉 Order placed! Thank you for shopping at QuickMart.');
+  cart = []; updateCart(); toggleCart();
+}
+</script>
+</body>
+</html>
