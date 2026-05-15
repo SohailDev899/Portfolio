@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NoteSnap — Your Smart Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0F0F13;--bg2:#16161D;--bg3:#1C1C26;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+  --yellow:#FCD34D;--yellow2:#FDE68A;--yellow-glow:rgba(252,211,77,0.15);
+  --white:#FFFFFF;--text:#E2E2F0;--grey:#6B7280;--grey2:#9CA3AF;
+  --green:#34D399;--red:#F87171;--blue:#60A5FA;--purple:#A78BFA;
+  --font:'Inter',sans-serif;
+  --r:12px;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;display:grid;grid-template-columns:280px 1fr;grid-template-rows:auto 1fr}
+
+/* HEADER */
+header{grid-column:1/-1;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.logo{font-size:18px;font-weight:800;color:var(--white);letter-spacing:-0.03em;display:flex;align-items:center;gap:8px}
+.logo-icon{width:32px;height:32px;background:var(--yellow);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.header-right{display:flex;align-items:center;gap:12px}
+.search-wrap{position:relative}
+.search-input{background:var(--bg3);border:1px solid var(--border);border-radius:100px;padding:8px 16px 8px 36px;font-family:var(--font);font-size:13px;color:var(--text);outline:none;width:220px;transition:all 0.2s}
+.search-input:focus{border-color:rgba(252,211,77,0.4);width:260px}
+.search-input::placeholder{color:var(--grey)}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--grey)}
+.new-note-btn{display:flex;align-items:center;gap:8px;background:var(--yellow);color:#000;border:none;padding:8px 18px;border-radius:100px;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.new-note-btn:hover{background:var(--yellow2);transform:translateY(-1px)}
+
+/* SIDEBAR */
+aside{background:var(--bg2);border-right:1px solid var(--border);padding:20px 16px;overflow-y:auto}
+.sidebar-section{margin-bottom:28px}
+.sidebar-label{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--grey);margin-bottom:12px;padding:0 8px}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r);cursor:pointer;font-size:14px;font-weight:500;color:var(--grey2);transition:all 0.2s;position:relative}
+.sidebar-item:hover{background:var(--bg3);color:var(--text)}
+.sidebar-item.active{background:var(--yellow-glow);color:var(--yellow);border:1px solid rgba(252,211,77,0.15)}
+.sidebar-item-icon{font-size:16px;width:20px;text-align:center}
+.sidebar-badge{margin-left:auto;background:var(--bg3);color:var(--grey2);font-size:11px;font-weight:700;padding:2px 8px;border-radius:100px}
+.sidebar-item.active .sidebar-badge{background:rgba(252,211,77,0.2);color:var(--yellow)}
+.tag-item{display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:var(--r);cursor:pointer;font-size:13px;font-weight:500;color:var(--grey2);transition:all 0.2s}
+.tag-item:hover{background:var(--bg3);color:var(--text)}
+.tag-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* MAIN */
+main{background:var(--bg);overflow-y:auto;display:flex;flex-direction:column}
+.main-header{padding:24px 28px 0;display:flex;align-items:center;justify-content:space-between}
+.main-title{font-size:22px;font-weight:800;color:var(--white);letter-spacing:-0.02em}
+.view-toggle{display:flex;gap:4px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:3px}
+.view-btn{width:32px;height:32px;border-radius:7px;border:none;background:transparent;font-size:16px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center}
+.view-btn.active{background:var(--bg3)}
+
+/* NOTES GRID */
+.notes-area{padding:20px 28px;flex:1}
+.notes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.note-card{border-radius:16px;padding:20px;cursor:pointer;transition:all 0.3s;position:relative;border:1px solid transparent;min-height:160px;display:flex;flex-direction:column}
+.note-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.3)}
+.note-card.yellow{background:#2D2500;border-color:rgba(252,211,77,0.2)}
+.note-card.blue{background:#0C1A2E;border-color:rgba(96,165,250,0.2)}
+.note-card.green{background:#0A1F15;border-color:rgba(52,211,153,0.2)}
+.note-card.purple{background:#1A0F2E;border-color:rgba(167,139,250,0.2)}
+.note-card.pink{background:#2D0A14;border-color:rgba(251,113,133,0.2)}
+.note-card.grey{background:var(--bg3);border-color:var(--border2)}
+.note-menu-btn{position:absolute;top:12px;right:12px;width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,0.05);border:none;color:var(--grey2);font-size:16px;cursor:pointer;display:none;align-items:center;justify-content:center;transition:all 0.2s}
+.note-card:hover .note-menu-btn{display:flex}
+.note-menu-btn:hover{background:rgba(255,255,255,0.12)}
+.note-tag-chip{display:inline-block;font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:3px 10px;border-radius:100px;margin-bottom:12px}
+.note-title-card{font-size:16px;font-weight:700;color:var(--white);margin-bottom:8px;line-height:1.3}
+.note-body-card{font-size:13px;color:var(--grey2);line-height:1.6;flex:1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical}
+.note-footer-card{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06)}
+.note-date{font-size:11px;color:var(--grey)}
+.note-actions{display:flex;gap:4px}
+.note-action-btn{width:26px;height:26px;border-radius:6px;background:rgba(255,255,255,0.05);border:none;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+.note-action-btn:hover{background:rgba(255,255,255,0.12)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:24px;width:100%;max-width:560px;padding:32px;position:relative;animation:modalIn 0.25s ease}
+@keyframes modalIn{from{opacity:0;transform:scale(0.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);color:var(--grey2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.modal-title{font-size:20px;font-weight:800;color:var(--white);margin-bottom:24px}
+.modal-field{margin-bottom:18px}
+.modal-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--grey);margin-bottom:8px;display:block}
+.modal-input,.modal-textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-family:var(--font);font-size:14px;color:var(--text);outline:none;transition:all 0.2s}
+.modal-input:focus,.modal-textarea:focus{border-color:rgba(252,211,77,0.4);background:var(--bg)}
+.modal-input::placeholder,.modal-textarea::placeholder{color:var(--grey)}
+.modal-textarea{resize:vertical;min-height:140px;line-height:1.6}
+.color-pick{display:flex;gap:8px;flex-wrap:wrap}
+.color-opt{width:28px;height:28px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all 0.2s}
+.color-opt:hover{transform:scale(1.15)}
+.color-opt.selected{border-color:var(--white);transform:scale(1.1)}
+.modal-footer{display:flex;gap:12px;margin-top:24px}
+.modal-save{flex:1;background:var(--yellow);color:#000;border:none;padding:13px;border-radius:100px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.modal-save:hover{background:var(--yellow2)}
+.modal-cancel{padding:13px 24px;background:var(--bg3);color:var(--grey2);border:1px solid var(--border);border-radius:100px;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer}
+.modal-cancel:hover{color:var(--white)}
+
+/* EMPTY */
+.empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px;text-align:center}
+.empty-icon{font-size:64px;margin-bottom:20px}
+.empty-title{font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px}
+.empty-sub{font-size:14px;color:var(--grey);line-height:1.6}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;right:28px;background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:14px 20px;font-size:14px;font-weight:600;color:var(--text);z-index:300;transform:translateY(80px);opacity:0;transition:all 0.3s;display:flex;align-items:center;gap:10px}
+.toast.show{transform:translateY(0);opacity:1}
+  /* ===== MOBILE RESPONSIVE ===== */
+
+@media (max-width: 768px){
+
+  body{
+    display:block;
+  }
+
+  header{
+    padding:12px 14px;
+    height:auto;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+  }
+
+  .header-right{
+    width:100%;
+    display:flex;
+    gap:10px;
+  }
+
+  .search-wrap{
+    flex:1;
+  }
+
+  .search-input{
+    width:100%;
+  }
+
+  .search-input:focus{
+    width:100%;
+  }
+
+  .new-note-btn{
+    padding:10px 14px;
+    font-size:12px;
+    white-space:nowrap;
+  }
+
+  aside{
+    width:100%;
+    border-right:none;
+    border-bottom:1px solid var(--border);
+    padding:14px;
+  }
+
+  .sidebar-section{
+    margin-bottom:18px;
+  }
+
+  main{
+    width:100%;
+  }
+
+  .main-header{
+    padding:18px 14px 0;
+    align-items:center;
+  }
+
+  .main-title{
+    font-size:28px;
+  }
+
+  .notes-area{
+    padding:14px;
+  }
+
+  .notes-grid{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+
+  .note-card{
+    min-height:auto;
+    padding:18px;
+  }
+
+  .modal{
+    width:92%;
+    padding:22px;
+    border-radius:18px;
+  }
+
+  .modal-footer{
+    flex-direction:column;
+  }
+
+  .modal-save,
+  .modal-cancel{
+    width:100%;
+  }
+
+  .toast{
+    right:14px;
+    left:14px;
+    bottom:14px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo"><div class="logo-icon">📝</div>NoteSnap</div>
+  <div class="header-right">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" placeholder="Search notes..." oninput="searchNotes(this.value)" id="searchInput">
+    </div>
+    <button class="new-note-btn" onclick="openModal()">+ New Note</button>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<aside>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Menu</div>
+    <div class="sidebar-item active" onclick="setFilter('all',this)"><span class="sidebar-item-icon">📋</span>All Notes<span class="sidebar-badge" id="allCount">0</span></div>
+    <div class="sidebar-item" onclick="setFilter('pinned',this)"><span class="sidebar-item-icon">📌</span>Pinned<span class="sidebar-badge" id="pinnedCount">0</span></div>
+    <div class="sidebar-item" onclick="setFilter('trash',this)"><span class="sidebar-item-icon">🗑️</span>Trash<span class="sidebar-badge" id="trashCount">0</span></div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Tags</div>
+    <div class="tag-item" onclick="setFilter('tag-Work',null)"><div class="tag-dot" style="background:#60A5FA"></div>Work</div>
+    <div class="tag-item" onclick="setFilter('tag-Personal',null)"><div class="tag-dot" style="background:#34D399"></div>Personal</div>
+    <div class="tag-item" onclick="setFilter('tag-Ideas',null)"><div class="tag-dot" style="background:#FCD34D"></div>Ideas</div>
+    <div class="tag-item" onclick="setFilter('tag-Study',null)"><div class="tag-dot" style="background:#A78BFA"></div>Study</div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main>
+  <div class="main-header">
+    <div class="main-title" id="mainTitle">All Notes</div>
+    <div class="view-toggle">
+      <button class="view-btn active">⊞</button>
+      <button class="view-btn">☰</button>
+    </div>
+  </div>
+  <div class="notes-area">
+    <div class="notes-grid" id="notesGrid"></div>
+    <div class="empty-state" id="emptyState" style="display:none">
+      <div class="empty-icon">📭</div>
+      <div class="empty-title">No notes here</div>
+      <div class="empty-sub">Create your first note by clicking<br>"+ New Note" above</div>
+    </div>
+  </div>
+</main>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title" id="modalTitle">✨ New Note</div>
+    <div class="modal-field">
+      <label class="modal-label">Title</label>
+      <input class="modal-input" id="noteTitle" placeholder="Give your note a title...">
+    </div>
+    <div class="modal-field">
+      <label class="modal-label">Content</label>
+      <textarea class="modal-textarea" id="noteContent" placeholder="Start writing..."></textarea>
+    </div>
+    <div class="modal-field">
+      <label class="modal-label">Tag</label>
+      <select class="modal-input" id="noteTag">
+        <option value="Ideas">💡 Ideas</option>
+        <option value="Work">💼 Work</option>
+        <option value="Personal">😊 Personal</option>
+        <option value="Study">📚 Study</option>
+      </select>
+    </div>
+    <div class="modal-field">
+      <label class="modal-label">Color</label>
+      <div class="color-pick">
+        <div class="color-opt selected" style="background:#FCD34D" data-color="yellow" onclick="selectColor(this,'yellow')"></div>
+        <div class="color-opt" style="background:#60A5FA" data-color="blue" onclick="selectColor(this,'blue')"></div>
+        <div class="color-opt" style="background:#34D399" data-color="green" onclick="selectColor(this,'green')"></div>
+        <div class="color-opt" style="background:#A78BFA" data-color="purple" onclick="selectColor(this,'purple')"></div>
+        <div class="color-opt" style="background:#F87171" data-color="pink" onclick="selectColor(this,'pink')"></div>
+        <div class="color-opt" style="background:#6B7280" data-color="grey" onclick="selectColor(this,'grey')"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+      <button class="modal-save" onclick="saveNote()">Save Note →</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const tagColors = {
+  Ideas: { bg:'#FCD34D', text:'#000' },
+  Work: { bg:'#60A5FA', text:'#000' },
+  Personal: { bg:'#34D399', text:'#000' },
+  Study: { bg:'#A78BFA', text:'#000' }
+};
+
+const cardColors = {
+  yellow: { label:'#FCD34D', labelText:'#000' },
+  blue: { label:'#60A5FA', labelText:'#000' },
+  green: { label:'#34D399', labelText:'#000' },
+  purple: { label:'#A78BFA', labelText:'#000' },
+  pink: { label:'#F87171', labelText:'#000' },
+  grey: { label:'#6B7280', labelText:'#fff' }
+};
+
+let notes = [
+  { id:1, title:'Website Ideas', content:'Dark theme portfolio with smooth scroll animations. Use Poppins for headings. Add a custom cursor for extra WOW factor. Hero section with animated gradient.', tag:'Ideas', color:'yellow', pinned:false, trash:false, date:'Today' },
+  { id:2, title:'Client Meeting Notes', content:'Discussed the new landing page design. Client wants: green color scheme, large hero image, testimonials section, contact form. Deadline: next Friday.', tag:'Work', color:'blue', pinned:true, trash:false, date:'Yesterday' },
+  { id:3, title:'JavaScript Tips', content:'Arrow functions, destructuring, spread operator. Learn async/await properly. Practice DOM manipulation daily. Build 1 small project every week.', tag:'Study', color:'purple', pinned:false, trash:false, date:'2 days ago' },
+  { id:4, title:'Grocery List', content:'Milk, eggs, bread, bananas, rice, dal, onions, tomatoes, green chillies, cooking oil, curd.', tag:'Personal', color:'green', pinned:false, trash:false, date:'3 days ago' },
+];
+
+let editId = null;
+let selectedColor = 'yellow';
+let currentFilter = 'all';
+
+function getFilteredNotes() {
+  let filtered = notes.filter(n => !n.trash);
+  if (currentFilter === 'pinned') filtered = notes.filter(n => n.pinned && !n.trash);
+  if (currentFilter === 'trash') filtered = notes.filter(n => n.trash);
+  if (currentFilter.startsWith('tag-')) { const t = currentFilter.replace('tag-',''); filtered = notes.filter(n => n.tag === t && !n.trash); }
+  return filtered;
+}
+
+function renderNotes(list) {
+  const grid = document.getElementById('notesGrid');
+  const empty = document.getElementById('emptyState');
+  document.getElementById('allCount').textContent = notes.filter(n=>!n.trash).length;
+  document.getElementById('pinnedCount').textContent = notes.filter(n=>n.pinned&&!n.trash).length;
+  document.getElementById('trashCount').textContent = notes.filter(n=>n.trash).length;
+  if (!list) list = getFilteredNotes();
+  if (list.length === 0) { grid.innerHTML=''; empty.style.display='flex'; return; }
+  empty.style.display = 'none';
+  grid.innerHTML = list.map(n => {
+    const tc = tagColors[n.tag] || {bg:'#6B7280',text:'#fff'};
+    const cc = cardColors[n.color] || cardColors.grey;
+    return `
+    <div class="note-card ${n.color}" data-id="${n.id}">
+      <button class="note-menu-btn" onclick="event.stopPropagation();togglePin(${n.id})">${n.pinned?'📌':'📍'}</button>
+      <div class="note-tag-chip" style="background:${tc.bg};color:${tc.text}">${n.tag}</div>
+      ${n.pinned ? '<div style="position:absolute;top:12px;left:12px;font-size:14px">📌</div>' : ''}
+      <div class="note-title-card">${n.title}</div>
+      <div class="note-body-card">${n.content}</div>
+      <div class="note-footer-card">
+        <div class="note-date">${n.date}</div>
+        <div class="note-actions">
+          <button class="note-action-btn" onclick="event.stopPropagation();editNote(${n.id})" title="Edit">✏️</button>
+          <button class="note-action-btn" onclick="event.stopPropagation();deleteNote(${n.id})" title="Delete">${n.trash?'🗑️':'🗑'}</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  grid.querySelectorAll('.note-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const id = parseInt(card.dataset.id);
+      editNote(id);
+    });
+  });
+}
+
+function setFilter(filter, el) {
+  currentFilter = filter;
+  if (el) {
+    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+  }
+  const titles = { all:'All Notes', pinned:'Pinned Notes', trash:'Trash' };
+  document.getElementById('mainTitle').textContent = titles[filter] || filter.replace('tag-','') + ' Notes';
+  renderNotes();
+}
+
+function openModal(id) {
+  editId = id || null;
+  selectedColor = 'yellow';
+  document.querySelectorAll('.color-opt').forEach(o => o.classList.remove('selected'));
+  document.querySelector('[data-color="yellow"]').classList.add('selected');
+  if (id) {
+    const n = notes.find(n => n.id === id);
+    document.getElementById('modalTitle').textContent = '✏️ Edit Note';
+    document.getElementById('noteTitle').value = n.title;
+    document.getElementById('noteContent').value = n.content;
+    document.getElementById('noteTag').value = n.tag;
+    selectedColor = n.color;
+    document.querySelectorAll('.color-opt').forEach(o => o.classList.remove('selected'));
+    document.querySelector(`[data-color="${n.color}"]`).classList.add('selected');
+  } else {
+    document.getElementById('modalTitle').textContent = '✨ New Note';
+    document.getElementById('noteTitle').value = '';
+    document.getElementById('noteContent').value = '';
+    document.getElementById('noteTag').value = 'Ideas';
+  }
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+function handleOverlayClick(e) { if(e.target.id==='modalOverlay') closeModal(); }
+
+function saveNote() {
+  const title = document.getElementById('noteTitle').value.trim();
+  const content = document.getElementById('noteContent').value.trim();
+  const tag = document.getElementById('noteTag').value;
+  if (!title) { showToast('⚠️ Please add a title!'); return; }
+  if (editId) {
+    const n = notes.find(n => n.id === editId);
+    n.title = title; n.content = content; n.tag = tag; n.color = selectedColor; n.date = 'Just now';
+    showToast('✅ Note updated!');
+  } else {
+    notes.unshift({ id: Date.now(), title, content, tag, color: selectedColor, pinned: false, trash: false, date: 'Just now' });
+    showToast('✅ Note saved!');
+  }
+  closeModal();
+  renderNotes();
+}
+
+function editNote(id) { openModal(id); }
+
+function deleteNote(id) {
+  const n = notes.find(n => n.id === id);
+  if (n.trash) { notes = notes.filter(n => n.id !== id); showToast('🗑️ Note deleted permanently'); }
+  else { n.trash = true; showToast('🗑️ Note moved to trash'); }
+  renderNotes();
+}
+
+function togglePin(id) {
+  const n = notes.find(n => n.id === id);
+  n.pinned = !n.pinned;
+  showToast(n.pinned ? '📌 Note pinned!' : '📍 Note unpinned');
+  renderNotes();
+}
+
+function selectColor(el, color) {
+  selectedColor = color;
+  document.querySelectorAll('.color-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function searchNotes(query) {
+  if (!query.trim()) { renderNotes(); return; }
+  const filtered = notes.filter(n => !n.trash && (n.title.toLowerCase().includes(query.toLowerCase()) || n.content.toLowerCase().includes(query.toLowerCase())));
+  renderNotes(filtered);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Init
+renderNotes();
+</script>
+</body>
+</html>
