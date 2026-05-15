@@ -1191,7 +1191,7 @@ footer {
           <p class="proj-desc">A fully responsive restaurant website with an online menu, table booking form, and contact section. Built for a local restaurant in my city as a personal project to practice real-world layouts.</p>
           <div class="proj-footer">
             <div class="proj-result">✅ Mobile-first design · 3 pages</div>
-            <a href="https://sohaildev899.github.io/zestoeats-restaurant.html" class="proj-link">View Details →</a>
+            <a href="/zestoeats-restaurant.html" class="proj-link">View Details →</a>
           </div>
         </div>
       </div>
@@ -1211,7 +1211,7 @@ footer {
           <p class="proj-desc">A clean e-commerce frontend with product listings, filter system, and working cart functionality. Built to showcase my React skills and understanding of component-based design.</p>
           <div class="proj-footer">
             <div class="proj-result">✅ React components · Working cart</div>
-            <a href="https://sohaildev899.github.io/quickmart-ecommerce.html" class="proj-link">View Details →</a>
+            <a href="/quickmart-ecommerce.html" class="proj-link">View Details →</a>
           </div>
         </div>
       </div>
@@ -1269,7 +1269,7 @@ footer {
           <p class="proj-desc">A modern, dark-themed portfolio template for developers. Includes smooth scroll animations, skill bars, and a contact form. Designed to be clean, fast, and impressive.</p>
           <div class="proj-footer">
             <div class="proj-result">✅ Pure CSS animations · Dark theme</div>
-            <a href="https://sohaildev899.github.io/devfolio-template.html" class="proj-link" >View Details →</a>
+            <a href="/devfolio-template.html" class="proj-link" >View Details →</a>
           </div>
         </div>
       </div>
@@ -1289,7 +1289,7 @@ footer {
           <p class="proj-desc">A minimal notes app with create, edit, delete, and search features. Data saves in the browser using localStorage. Built to sharpen my JavaScript logic and DOM manipulation skills.</p>
           <div class="proj-footer">
             <div class="proj-result">✅ CRUD operations · Zero dependencies</div>
-            <a href="https://sohaildev899.github.io/notesnap-app.html" class="proj-link">View Details →</a>
+            <a href="/notesnap-app.html" class="proj-link">View Details →</a>
           </div>
         </div>
       </div>
@@ -1436,25 +1436,33 @@ footer {
       </div>
 
       <div class="reveal">
-        <div class="contact-form">
-          <div class="form-group">
-            <label class="form-label">Your Name</label>
-            <input type="text" class="form-input" placeholder="Rahul Sharma">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Email / WhatsApp</label>
-            <input type="text" class="form-input" placeholder="rahul@email.com or +91 xxxxx">
-          </div>
-          <div class="form-group">
-            <label class="form-label">What do you need?</label>
-            <input type="text" class="form-input" placeholder="e.g. Restaurant website, Portfolio, etc.">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Tell me more</label>
-            <textarea class="form-textarea" placeholder="Share any details about your project — pages needed, design style, deadline..."></textarea>
-          </div>
-          <button class="form-btn" onclick="submitForm(this)">Send Message →</button>
-        </div>
+        <form action="https://formspree.io/f/mgodjdwq" method="POST" class="contact-form">
+
+  <div class="form-group">
+    <label class="form-label">Your Name</label>
+    <input type="text" name="name" class="form-input" required>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Email / WhatsApp</label>
+    <input type="text" name="contact" class="form-input" required>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">What do you need?</label>
+    <input type="text" name="service" class="form-input">
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Tell me more</label>
+    <textarea name="message" class="form-textarea" required></textarea>
+  </div>
+
+  <button type="submit" class="form-btn">
+    Send Message →
+  </button>
+
+        </form>
       </div>
     </div>
   </div>
