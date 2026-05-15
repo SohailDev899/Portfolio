@@ -55,7 +55,7 @@ main{background:var(--bg);overflow-y:auto;display:flex;flex-direction:column}
 
 /* NOTES GRID */
 .notes-area{padding:20px 28px;flex:1}
-.notes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.notes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
 .note-card{border-radius:16px;padding:20px;cursor:pointer;transition:all 0.3s;position:relative;border:1px solid transparent;min-height:160px;display:flex;flex-direction:column}
 .note-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.3)}
 .note-card.yellow{background:#2D2500;border-color:rgba(252,211,77,0.2)}
@@ -108,6 +108,106 @@ main{background:var(--bg);overflow-y:auto;display:flex;flex-direction:column}
 /* TOAST */
 .toast{position:fixed;bottom:28px;right:28px;background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:14px 20px;font-size:14px;font-weight:600;color:var(--text);z-index:300;transform:translateY(80px);opacity:0;transition:all 0.3s;display:flex;align-items:center;gap:10px}
 .toast.show{transform:translateY(0);opacity:1}
+  /* ===== MOBILE RESPONSIVE ===== */
+
+@media (max-width: 768px){
+
+  body{
+    display:block;
+  }
+
+  header{
+    padding:12px 14px;
+    height:auto;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+  }
+
+  .header-right{
+    width:100%;
+    display:flex;
+    gap:10px;
+  }
+
+  .search-wrap{
+    flex:1;
+  }
+
+  .search-input{
+    width:100%;
+  }
+
+  .search-input:focus{
+    width:100%;
+  }
+
+  .new-note-btn{
+    padding:10px 14px;
+    font-size:12px;
+    white-space:nowrap;
+  }
+
+  aside{
+    width:100%;
+    border-right:none;
+    border-bottom:1px solid var(--border);
+    padding:14px;
+  }
+
+  .sidebar-section{
+    margin-bottom:18px;
+  }
+
+  main{
+    width:100%;
+  }
+
+  .main-header{
+    padding:18px 14px 0;
+    align-items:center;
+  }
+
+  .main-title{
+    font-size:28px;
+  }
+
+  .notes-area{
+    padding:14px;
+  }
+
+  .notes-grid{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+
+  .note-card{
+    min-height:auto;
+    padding:18px;
+  }
+
+  .modal{
+    width:92%;
+    padding:22px;
+    border-radius:18px;
+  }
+
+  .modal-footer{
+    flex-direction:column;
+  }
+
+  .modal-save,
+  .modal-cancel{
+    width:100%;
+  }
+
+  .toast{
+    right:14px;
+    left:14px;
+    bottom:14px;
+  }
+
+}
 </style>
 </head>
 <body>
